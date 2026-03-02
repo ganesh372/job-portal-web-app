@@ -34,11 +34,11 @@
             <scope>provided</scope>
         </dependency>
 
-        <!-- MySQL Connector -->
+        <!-- MySQL Connector/J (official artifact, replaces deprecated mysql:mysql-connector-java) -->
         <dependency>
-            <groupId>mysql</groupId>
-            <artifactId>mysql-connector-java</artifactId>
-            <version>8.0.33</version>
+            <groupId>com.mysql</groupId>
+            <artifactId>mysql-connector-j</artifactId>
+            <version>9.2.0</version>
         </dependency>
 
         <!-- JSTL -->
