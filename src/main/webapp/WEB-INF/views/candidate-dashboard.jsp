@@ -25,6 +25,7 @@
         .card p { color: #666; margin-bottom: 20px; font-size: 0.95rem; }
         .card a { display: inline-block; padding: 10px 24px; background: #1a73e8; color: white; border-radius: 6px; text-decoration: none; font-weight: 600; transition: background 0.2s; }
         .card a:hover { background: #1557b0; }
+        .coming-soon { display: inline-block; padding: 10px 24px; background: #e0e0e0; color: #888; border-radius: 6px; font-size: 0.9rem; font-style: italic; }
     </style>
 </head>
 <body>
@@ -45,13 +46,13 @@
             <div class="icon">&#128269;</div>
             <h3>Search Jobs</h3>
             <p>Browse and search for available job openings that match your skills.</p>
-            <a href="${pageContext.request.contextPath}/search-jobs">Search Now</a>
+            <span class="coming-soon">Coming soon</span>
         </div>
         <div class="card">
             <div class="icon">&#128203;</div>
             <h3>My Applications</h3>
             <p>Track the status of all your submitted job applications.</p>
-            <a href="${pageContext.request.contextPath}/my-applications">View Applications</a>
+            <span class="coming-soon">Coming soon</span>
         </div>
     </div>
 </div>

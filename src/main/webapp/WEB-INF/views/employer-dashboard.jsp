@@ -17,7 +17,6 @@
         .welcome { background: white; border-radius: 12px; padding: 30px; margin-bottom: 30px; box-shadow: 0 2px 10px rgba(0,0,0,0.08); }
         .welcome h2 { color: #1a73e8; font-size: 1.6rem; margin-bottom: 8px; }
         .welcome p { color: #666; }
-        .alert-success { background: #e6f4ea; color: #137333; padding: 12px; border-radius: 6px; margin-bottom: 20px; border: 1px solid #a8d5b5; }
         .cards { display: flex; gap: 24px; flex-wrap: wrap; }
         .card { background: white; border-radius: 12px; padding: 30px; flex: 1; min-width: 220px; box-shadow: 0 2px 10px rgba(0,0,0,0.08); text-align: center; transition: transform 0.2s, box-shadow 0.2s; }
         .card:hover { transform: translateY(-4px); box-shadow: 0 8px 24px rgba(0,0,0,0.12); }
@@ -26,6 +25,7 @@
         .card p { color: #666; margin-bottom: 20px; font-size: 0.95rem; }
         .card a { display: inline-block; padding: 10px 24px; background: #1a73e8; color: white; border-radius: 6px; text-decoration: none; font-weight: 600; transition: background 0.2s; }
         .card a:hover { background: #1557b0; }
+        .coming-soon { display: inline-block; padding: 10px 24px; background: #e0e0e0; color: #888; border-radius: 6px; font-size: 0.9rem; font-style: italic; }
     </style>
 </head>
 <body>
@@ -37,9 +37,6 @@
     </nav>
 </header>
 <div class="container">
-    <c:if test="${param.posted == 'true'}">
-        <div class="alert-success">Job posted successfully!</div>
-    </c:if>
     <div class="welcome">
         <h2>Welcome, <c:out value="${sessionScope.userName}"/>!</h2>
         <p>You are logged in as an <strong>Employer</strong>. Manage your job postings and applications.</p>
@@ -49,13 +46,13 @@
             <div class="icon">&#10133;</div>
             <h3>Post a Job</h3>
             <p>Create a new job listing to attract qualified candidates.</p>
-            <a href="${pageContext.request.contextPath}/post-job">Post Job</a>
+            <span class="coming-soon">Coming soon</span>
         </div>
         <div class="card">
             <div class="icon">&#128101;</div>
             <h3>Manage Applications</h3>
             <p>Review and update the status of applications received for your jobs.</p>
-            <a href="${pageContext.request.contextPath}/manage-applications">View Applications</a>
+            <span class="coming-soon">Coming soon</span>
         </div>
     </div>
 </div>

@@ -60,7 +60,8 @@ public class RegisterServlet extends HttpServlet {
             if (e.getMessage() != null && e.getMessage().contains("Duplicate entry")) {
                 request.setAttribute("error", "Email already registered. Please use a different email.");
             } else {
-                request.setAttribute("error", "Database error: " + e.getMessage());
+                getServletContext().log("RegisterServlet: database error during registration", e);
+                request.setAttribute("error", "A database error occurred. Please try again later.");
             }
             request.getRequestDispatcher("/WEB-INF/views/register.jsp").forward(request, response);
         }

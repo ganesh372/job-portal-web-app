@@ -50,7 +50,8 @@ public class LoginServlet extends HttpServlet {
                 request.getRequestDispatcher("/WEB-INF/views/login.jsp").forward(request, response);
             }
         } catch (SQLException e) {
-            request.setAttribute("error", "Database error: " + e.getMessage());
+            getServletContext().log("LoginServlet: database error during authentication", e);
+            request.setAttribute("error", "A database error occurred. Please try again later.");
             request.getRequestDispatcher("/WEB-INF/views/login.jsp").forward(request, response);
         }
     }
