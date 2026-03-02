@@ -49,9 +49,13 @@ public class DBConnection {
 
     /** Returns a new database connection. Callers must close it when done. */
     public static Connection getConnection() throws SQLException {
-        return DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD);
-    }
 
+    System.out.println("ENV DB_URL = " + DB_URL);
+    System.out.println("ENV DB_USER = " + DB_USER);
+    System.out.println("ENV DB_PASSWORD is null? " + (DB_PASSWORD == null));
+
+    return DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD);
+}
     private DBConnection() {
     }
 
