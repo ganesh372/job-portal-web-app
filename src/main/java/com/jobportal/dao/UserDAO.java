@@ -21,14 +21,16 @@ public class UserDAO {
     }
 
     public User getUserByEmailAndPassword(String email, String password) throws SQLException {
-        String sql = "SELECT * FROM users WHERE email = ? AND password = ?";
+        String sql = "SELECT * FROM users WHERE email = ?";
         try (Connection conn = DBConnection.getConnection();
              PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setString(1, email);
-            ps.setString(2, PasswordUtil.hashPassword(password));
             try (ResultSet rs = ps.executeQuery()) {
                 if (rs.next()) {
-                    return mapUser(rs);
+                    User user = mapUser(rs);
+                    if (PasswordUtil.verifyPassword(password, user.getPassword())) {
+                        return user;
+                    }
                 }
             }
         }

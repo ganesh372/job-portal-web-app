@@ -92,12 +92,21 @@ public class ApplyJobServlet extends HttpServlet {
             String resumePath = null;
             Part resumePart = request.getPart("resume");
             if (resumePart != null && resumePart.getSize() > 0) {
+                String originalName = getSubmittedFileName(resumePart);
+                if (!isAllowedFileType(originalName)) {
+                    request.setAttribute("error", "Invalid file type. Only PDF, DOC, and DOCX files are allowed.");
+                    Job job = jobDAO.getJobById(jobId);
+                    request.setAttribute("job", job);
+                    request.setAttribute("alreadyApplied", false);
+                    request.getRequestDispatcher("/WEB-INF/views/apply-job.jsp").forward(request, response);
+                    return;
+                }
                 String uploadsDir = getServletContext().getRealPath("") + File.separator + "uploads";
                 File uploadFolder = new File(uploadsDir);
                 if (!uploadFolder.exists()) {
                     uploadFolder.mkdirs();
                 }
-                String fileName = candidateId + "_" + jobId + "_" + System.currentTimeMillis() + "_" + getSubmittedFileName(resumePart);
+                String fileName = candidateId + "_" + jobId + "_" + System.currentTimeMillis() + "_" + originalName;
                 String filePath = uploadsDir + File.separator + fileName;
                 resumePart.write(filePath);
                 resumePath = "uploads/" + fileName;
@@ -121,6 +130,12 @@ public class ApplyJobServlet extends HttpServlet {
             request.setAttribute("error", "Database error: " + e.getMessage());
             request.getRequestDispatcher("/WEB-INF/views/error.jsp").forward(request, response);
         }
+    }
+
+    private boolean isAllowedFileType(String fileName) {
+        if (fileName == null) return false;
+        String lower = fileName.toLowerCase();
+        return lower.endsWith(".pdf") || lower.endsWith(".doc") || lower.endsWith(".docx");
     }
 
     private String getSubmittedFileName(Part part) {
