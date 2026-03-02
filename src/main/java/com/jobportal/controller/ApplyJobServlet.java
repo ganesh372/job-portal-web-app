@@ -130,7 +130,10 @@ public class ApplyJobServlet extends HttpServlet {
                 token = token.trim();
                 if (token.startsWith("filename")) {
                     String fileName = token.substring(token.indexOf('=') + 1).trim().replace("\"", "");
-                    return new File(fileName).getName();
+                    // Strip path components and sanitize: keep only safe characters
+                    String baseName = new File(fileName).getName();
+                    // Allow only alphanumerics, dots, dashes, underscores
+                    return baseName.replaceAll("[^a-zA-Z0-9._-]", "_");
                 }
             }
         }

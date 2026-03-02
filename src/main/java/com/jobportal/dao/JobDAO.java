@@ -38,9 +38,11 @@ public class JobDAO {
     }
 
     public List<Job> searchJobs(String keyword) throws SQLException {
-        String sql = "SELECT * FROM jobs WHERE title LIKE ? OR company LIKE ? OR location LIKE ? ORDER BY created_at DESC";
+        String sql = "SELECT * FROM jobs WHERE title LIKE ? ESCAPE '!' OR company LIKE ? ESCAPE '!' OR location LIKE ? ESCAPE '!' ORDER BY created_at DESC";
         List<Job> jobs = new ArrayList<>();
-        String pattern = "%" + keyword + "%";
+        // Escape LIKE special characters to prevent wildcard injection
+        String escaped = keyword.replace("!", "!!").replace("%", "!%").replace("_", "!_");
+        String pattern = "%" + escaped + "%";
         try (Connection conn = DBConnection.getConnection();
              PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setString(1, pattern);

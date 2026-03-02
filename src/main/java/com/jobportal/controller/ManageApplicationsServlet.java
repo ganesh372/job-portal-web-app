@@ -62,8 +62,10 @@ public class ManageApplicationsServlet extends HttpServlet {
         try {
             int appId = Integer.parseInt(appIdStr);
             applicationDAO.updateApplicationStatus(appId, status);
-        } catch (NumberFormatException | SQLException e) {
-            // Ignore and redirect
+        } catch (NumberFormatException e) {
+            log("Invalid application ID format: " + appIdStr, e);
+        } catch (SQLException e) {
+            log("Failed to update application status for ID: " + appIdStr, e);
         }
         response.sendRedirect(request.getContextPath() + "/manage-applications?updated=true");
     }
