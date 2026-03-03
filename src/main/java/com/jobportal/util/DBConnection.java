@@ -8,7 +8,7 @@ import java.sql.SQLException;
 import java.util.Properties;
 
 /**
- * Provides JDBC connections to the MySQL database.
+ * Provides JDBC connections to the PostgreSQL database (Supabase).
  *
  * <p>Credentials are resolved in this priority order:
  * <ol>
@@ -30,33 +30,29 @@ public class DBConnection {
             if (in != null) {
                 props.load(in);
             }
-        } catch (IOException e) {
+        } catch (IOException ignored) {
             // Non-fatal: env vars may still supply the values
         }
 
         // Environment variables take precedence over the properties file
         DB_URL = envOrProp("DB_URL", props, "db.url",
-                "jdbc:mysql://localhost:3306/jobportal?useSSL=false&serverTimezone=UTC&allowPublicKeyRetrieval=true");
-        DB_USER     = envOrProp("DB_USERNAME", props, "db.username", "root");
-        DB_PASSWORD = envOrProp("DB_PASSWORD", props, "db.password", "root");
-
-        try {
-            Class.forName("com.mysql.cj.jdbc.Driver");
-        } catch (ClassNotFoundException e) {
-            throw new RuntimeException("MySQL JDBC Driver not found", e);
-        }
+                "jdbc:postgresql://localhost:5432/postgres?sslmode=disable");
+        DB_USER = envOrProp("DB_USERNAME", props, "db.username", "postgres");
+        DB_PASSWORD = envOrProp("DB_PASSWORD", props, "db.password", "");
     }
 
     /** Returns a new database connection. Callers must close it when done. */
     public static Connection getConnection() throws SQLException {
+        // Optional debug logs (you can remove later)
+        System.out.println("ENV DB_URL = " + DB_URL);
+        System.out.println("ENV DB_USERNAME = " + DB_USER);
+        System.out.println("ENV DB_PASSWORD is null? " + (DB_PASSWORD == null));
 
-    System.out.println("ENV DB_URL = " + DB_URL);
-    System.out.println("ENV DB_USER = " + DB_USER);
-    System.out.println("ENV DB_PASSWORD is null? " + (DB_PASSWORD == null));
+        return DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD);
+    }
 
-    return DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD);
-}
     private DBConnection() {
+        // utility class
     }
 
     private static String envOrProp(String envKey, Properties props,
